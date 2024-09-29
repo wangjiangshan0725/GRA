@@ -13,7 +13,7 @@ This is the official implementation of the paper, *[GRA: Detecting Oriented Obje
 ### Motivation
 
 <div align="center">
-  <img src="./figs/motivation.png" width="40%"/>
+  <img src="./figs/motivation.png" width="80%"/>
 </div>
 
 
@@ -36,20 +36,18 @@ You can get the pretrained weight of GRA-ResNet from [Google drive](https://driv
 ```
 # train a Oriented R-CNN model with GRA-ResNet50 backbone
 python tools/train.py configs/obb/gra/gra_orcnn_r50fpn1x_ss_dota10.py;
-
 ```
 
 ### Testing
 ```
 python tools/test.py configs/obb/gra/gra_orcnn_r50fpn1x_ss_dota10.py \
 YOUR_CHECKPOINT_PATH --format-only --options save_dir=YOUR_SAVE_DIR;
-
 ```
 
 We provide the pretrained models as listed below.
 
-| Detector  | Backbone | box AP<br /> | pretrained model |
-| :---: | :---: | :---: | :---: | :---: |
+| Detector  | Backbone | box AP | pretrained model |
+| :---: | :---: | :---: | :---: |
 | Oriented R-CNN | GRA-ResNet50  | 77.65 | [GoogleDrive](https://drive.google.com/file/d/16TkDn9Ddxmrbc0DJfz6c0YcNyUlnhBlw/view?usp=sharing) |
 
 
