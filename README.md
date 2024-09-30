@@ -9,6 +9,7 @@ Authors: [Jiangshan Wang](https://scholar.google.com/citations?hl=en&user=HoKoCv
 
 This is the official implementation of the paper, *[GRA: Detecting Oriented Objects through Group-wise Rotating and Attention](https://arxiv.org/pdf/2403.11127)* (ECCV 2024). This paper presents novel Group-wise Rotating and Group-wise Spatial Attention machnisms to enhance the performance of oriented object detection.
 
+We are still
 
 ### Motivation
 
@@ -70,4 +71,4 @@ If you find our work is useful in your research, please consider citing:
 ```
 
 ## Contact
-If you have any questions or concerns, please send email to [wjs23@mails.tsinghua.edu.cn](mailto:wjs23@mails.tsinghua.edu.cn).
+The code in this repository is still being reorganized. Errors that may arise during the organizing process could lead to code malfunctions or discrepancies from the original research results. If you have any questions or concerns, please send email to [wjs23@mails.tsinghua.edu.cn](mailto:wjs23@mails.tsinghua.edu.cn).
