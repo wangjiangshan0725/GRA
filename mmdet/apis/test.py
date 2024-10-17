@@ -17,73 +17,49 @@ def single_gpu_test(model,
                     show=False,
                     out_dir=None,
                     show_score_thr=0.3):
-    print("!!!!!!!!!!!!!!!!!!!!!!!!here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     model.eval()
     results = []
     dataset = data_loader.dataset
     prog_bar = mmcv.ProgressBar(len(dataset))
     for i, data in enumerate(data_loader):
-        
-        flag = True
-        #####################################################################
-        # img_tensor = data['img'][0]
-        # img_metas = data['img_metas'][0].data[0]
-        # imgs = tensor2imgs(img_tensor, **img_metas[0]['img_norm_cfg'])
-        # for img, img_meta in zip(imgs, img_metas):
-        #     out_file = osp.join(out_dir, img_meta['ori_filename'])
-        #     if 'P1985_0001.png' in out_file:
-        #         flag=True
-        #         print("!!!True!!!")
-        ##########################################################
-            
-        if flag:
-            with torch.no_grad():
-                result = model(return_loss=False, rescale=True, **data)
+        with torch.no_grad():
+            result = model(return_loss=False, rescale=True, **data)
 
-            
-            if show or out_dir:
-                img_tensor = data['img'][0]
-                img_metas = data['img_metas'][0].data[0]
-                imgs = tensor2imgs(img_tensor, **img_metas[0]['img_norm_cfg'])
-                assert len(imgs) == len(img_metas)
+        if show or out_dir:
+            img_tensor = data['img'][0]
+            img_metas = data['img_metas'][0].data[0]
+            imgs = tensor2imgs(img_tensor, **img_metas[0]['img_norm_cfg'])
+            assert len(imgs) == len(img_metas)
 
-                for img, img_meta in zip(imgs, img_metas):
-                    h, w, _ = img_meta['img_shape']
-                    img_show = img[:h, :w, :]
+            for img, img_meta in zip(imgs, img_metas):
+                h, w, _ = img_meta['img_shape']
+                img_show = img[:h, :w, :]
 
-                    ori_h, ori_w = img_meta['ori_shape'][:-1]
-                    img_show = mmcv.imresize(img_show, (ori_w, ori_h))
+                ori_h, ori_w = img_meta['ori_shape'][:-1]
+                img_show = mmcv.imresize(img_show, (ori_w, ori_h))
 
-                    if out_dir:
-                        out_file = osp.join(out_dir, img_meta['ori_filename'])
-                    else:
-                        out_file = None
-                    
+                if out_dir:
                     out_file = osp.join(out_dir, img_meta['ori_filename'])
-                    print(out_file)
-                    with open('/cluster/home3/wjs/ARC_2/work_dirs/20240223/name.txt', 'a') as file:
-                                file.write(out_file)  # 写入内容
-                                file.write('\n')
-                    model.module.show_result(
-                        img_show,
-                        result,
-                        show=show,
-                        out_file=out_file,
-                        score_thr=show_score_thr,
-                        colors='pink')
-            # print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            # img_metas = data['img_metas'][0].data[0]
-            
-            # encode mask results
-            if isinstance(result, tuple):
-                bbox_results, mask_results = result
-                encoded_mask_results = encode_mask_results(mask_results)
-                result = bbox_results, encoded_mask_results
-            results.append(result)
+                else:
+                    out_file = None
 
-            batch_size = len(data['img_metas'][0].data)
-            for _ in range(batch_size):
-                prog_bar.update()
+                model.module.show_result(
+                    img_show,
+                    result,
+                    show=show,
+                    out_file=out_file,
+                    score_thr=show_score_thr)
+
+        # encode mask results
+        if isinstance(result, tuple):
+            bbox_results, mask_results = result
+            encoded_mask_results = encode_mask_results(mask_results)
+            result = bbox_results, encoded_mask_results
+        results.append(result)
+
+        batch_size = len(data['img_metas'][0].data)
+        for _ in range(batch_size):
+            prog_bar.update()
     return results
 
 

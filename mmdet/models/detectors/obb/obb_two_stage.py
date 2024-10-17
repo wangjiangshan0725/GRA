@@ -5,7 +5,7 @@ import torch.nn as nn
 from mmdet.models.builder import DETECTORS, build_backbone, build_head, build_neck
 from .obb_base import OBBBaseDetector
 from .obb_test_mixins import RotateAugRPNTestMixin
-import os
+
 
 @DETECTORS.register_module()
 class OBBTwoStageDetector(OBBBaseDetector, RotateAugRPNTestMixin):
@@ -206,14 +206,7 @@ class OBBTwoStageDetector(OBBBaseDetector, RotateAugRPNTestMixin):
         assert self.with_bbox, 'Bbox head must be implemented.'
 
         x = self.extract_feat(img)
-        
-        i=0
-        path = '/cluster/home3/wjs/ARC_2/work_dirs/20240223/feature_best/'+str(i)+'.pth'
-        while(os.path.exists(path)):
-            i = i+1
-            path = '/cluster/home3/wjs/ARC_2/work_dirs/20240223/feature_best/'+str(i)+'.pth'
-        torch.save(x, path)
-        
+
         if proposals is None:
             proposal_list = self.rpn_head.simple_test_rpn(x, img_metas)
         else:
