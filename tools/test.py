@@ -39,7 +39,7 @@ def parse_args():
         ' "segm", "proposal" for COCO, and "mAP", "recall" for PASCAL VOC')
     parser.add_argument('--show', action='store_true', help='show results')
     parser.add_argument(
-        '--show-dir', default='/cluster/home3/wjs/ARC_2/work_dir/debug', help='directory where painted images will be saved')
+        '--show-dir', help='directory where painted images will be saved')
     parser.add_argument(
         '--show-score-thr',
         type=float,
